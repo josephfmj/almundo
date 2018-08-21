@@ -8,7 +8,6 @@ package co.com.almundo.callcenter.services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import co.com.almundo.callcenter.components.Employee;
 import co.com.almundo.callcenter.models.CallRequest;
 
 /**
