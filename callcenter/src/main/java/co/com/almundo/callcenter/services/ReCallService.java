@@ -51,7 +51,7 @@ public class ReCallService{
 	}
 	
 	/**
-	 * This method validates if there are items in the queue, and send to process calls if there are employees available
+	 * This method validates if there are items in the queue, and send to process calls
 	 * @param dispatcher
 	 * @throws InterruptedException
 	 */

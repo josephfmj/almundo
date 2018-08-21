@@ -35,6 +35,11 @@ public class Dispatcher {
 	private CallQueue answeredCalls;
 	private CallQueue callQueue;
 
+	/**
+	 * The constructor
+	 * @param employees
+	 * @param callQueues
+	 */
 	public Dispatcher(List<Employee> employees, List<CallQueue> callQueues) {
 
 		this.employees = employees;
@@ -42,6 +47,11 @@ public class Dispatcher {
 		this.callQueue = callQueues.get(1);
 	}
 
+	/**
+	 * Manager the calls, attend or send to queue
+	 * @param call the call
+	 * @throws InterruptedException
+	 */
 	public synchronized void dispatchCall(CallRequest call) throws InterruptedException {
 
 		LOGGER.info("the call with msg: " + call.getMsg() + " are recived");
@@ -68,11 +78,19 @@ public class Dispatcher {
 
 	//Service Methods
 	
+	/**
+	 * Return the all aviable employess
+	 * @return
+	 */
 	public synchronized List<Employee> getAviableEmployes() {
 
 		return this.employees.stream().filter(x -> x.isAvailable()).collect(Collectors.toList());
 	}
 
+	/**
+	 * Return the aviable employes, whit minior priority (select the call operator, supervisor or director, depends to availability)
+	 * @return the Employees
+	 */
 	public Optional<Employee> getAvailableEmployee() {
 
 		final Comparator<Employee> comparator = (x, y) -> Integer.compare(x.getPriorityAnswer(), y.getPriorityAnswer());
@@ -80,11 +98,22 @@ public class Dispatcher {
 		return this.employees.stream().filter(x -> x.isAvailable()).min(comparator).map(this::setNotAvailableEmploye);
 	}
 
+	/**
+	 * Auxiliar Method to disable availability of employee
+	 * @param employee
+	 * @return
+	 */
 	private Employee setNotAvailableEmploye(Employee employee) {
 		employee.setAvailable(false);
 		return employee;
 	}
 
+	/**
+	 * Send the call for employee attend and process
+	 * @param employee the Employee who attends
+	 * @param call the Call
+	 * @return the Employee
+	 */
 	private Employee callAnswer(Employee employee, CallRequest call) {
 		this.employees.remove(employee);
 		LOGGER.info("employes.size:  " + this.employees.size());

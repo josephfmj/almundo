@@ -122,6 +122,10 @@ public class CallCenterApp {
     	this.dispatcher.dispatchCall(call);
     }
     
+    /**
+     * This is a asyncronus method to process the  calls queue
+     * @throws InterruptedException
+     */
     public void validateForCallInQueue() throws InterruptedException {
     	
     	LOGGER.info("Validate Calls in Queue");
