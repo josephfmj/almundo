@@ -33,9 +33,6 @@ public class CallCenterApp {
 	 */
 	private Dispatcher dispatcher;
 	
-	/**
-	 * 
-	 */
 	private ReCallService reCallService;
 	private List<CallQueue> callAuxQueues;
 	private List<Employee> employees;

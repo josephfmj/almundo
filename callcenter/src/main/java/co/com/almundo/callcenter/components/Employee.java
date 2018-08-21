@@ -19,6 +19,12 @@ public abstract class Employee {
 	private final int MIN_CALL_DURATION=5000;
 	private final int MAX_CALL_DURATION=10000;
 	
+	/**
+	 * Process the call, change the state (completed call)
+	 * @param call the Call to process
+	 * @return the Call procesed
+	 * @throws InterruptedException
+	 */
 	public CallRequest answerCall(CallRequest call) throws InterruptedException {
 		int callDuration = (int) (Math.random() * MAX_CALL_DURATION) + MIN_CALL_DURATION;
 		Thread.sleep(callDuration);
