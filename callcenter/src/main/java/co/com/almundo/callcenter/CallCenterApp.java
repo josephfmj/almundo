@@ -23,20 +23,37 @@ import co.com.almundo.callcenter.services.ReCallService;
  */
 public class CallCenterApp {
 	
+	/**
+	 * The Logger Class
+	 */
 	private static final Logger LOGGER=LogManager.getLogger(CallCenterApp.class);
 	
+	/**
+	 * The Dispatcher service
+	 */
 	private Dispatcher dispatcher;
+	
+	/**
+	 * 
+	 */
 	private ReCallService reCallService;
 	private List<CallQueue> callAuxQueues;
 	private List<Employee> employees;
+	private boolean stopValidateCall;;
 	
-    public static void main( String[] args )
-    {
+    /**
+     * The static method to lauch app
+     * @param args
+     * @throws InterruptedException
+     */
+    public static void main( String[] args ) throws InterruptedException{
+    	
     	LOGGER.info("Run the CallCenter App");
     	CallCenterApp callCenterApp= new CallCenterApp();
     	callCenterApp.initApp();
     	int max_call=11;
     	for(int i=0;i<max_call;i++){
+    		
     		CallRequest call= new CallRequest();
     		call.setMsg("message number: "+i);
     		call.setState(CallState.INCOMMING);
@@ -51,9 +68,17 @@ public class CallCenterApp {
 			.start();
     		
     	}
+    	
+    	callCenterApp.startValidateForCallInQueue();
+    	callCenterApp.validateForCallInQueue();
+    	Thread.sleep(60000);
+    	callCenterApp.stopValidateForCallInQueue();
 		
     }
     
+    /**
+     * Initialize the values a build the dependecies objects
+     */
     public void initApp() {
     	
     	//Create Employees List
@@ -84,12 +109,55 @@ public class CallCenterApp {
     	this.reCallService= new ReCallService();
     	
     	//Create the Dispatcher
-    	this.dispatcher= new Dispatcher(this.employees, this.callAuxQueues, this.reCallService);
+    	this.dispatcher= new Dispatcher(this.employees, this.callAuxQueues);
     }
     
+    /**
+     * This method recive the incomming calls and process the calls in queue
+     * @param call The call object
+     * @throws InterruptedException if is Interrupted
+     */
     public void inCommingCall(CallRequest call) throws InterruptedException {
     	LOGGER.info("incomming call");
     	this.dispatcher.dispatchCall(call);
+    }
+    
+    public void validateForCallInQueue() throws InterruptedException {
+    	
+    	LOGGER.info("Validate Calls in Queue");
+    	
+    	new Thread(() -> {
+			while(this.stopValidateCall) {
+				
+				if(dispatcher.getCallQueue().getCalls().size()>0) {
+					
+					LOGGER.info("were found call in recall queue");
+					try {
+						this.reCallService.processRecall(this.dispatcher);
+						Thread.sleep(8000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		})
+		.start();
+    	
+    }
+    
+    /**
+     * Stop the validateForCallInQueue
+     */
+    public void stopValidateForCallInQueue() {
+    	this.stopValidateCall=false;
+    }
+    
+    /**
+     * Start the validateForCallInQueue
+     */
+    public void startValidateForCallInQueue() {
+    	this.stopValidateCall=true;
     }
     
 }
