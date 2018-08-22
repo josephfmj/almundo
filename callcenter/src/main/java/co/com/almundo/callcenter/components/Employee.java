@@ -1,3 +1,8 @@
+/**
+ * Joseph Rubio - Copyright (c) 2018
+ * https://github.com/josephfmj/almundo
+ * Date: 19/08/2018
+ */
 package co.com.almundo.callcenter.components;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,17 +12,36 @@ import co.com.almundo.callcenter.models.constants.CallState;
 import co.com.almundo.callcenter.models.constants.EmployeeRol;
 import co.com.almundo.callcenter.services.Dispatcher;
 
+
+/**
+ * The Employe abstrac class, to define common features in the employees
+ * @author <a href="josephfmj@gmail.com">Joseph Rubio</a>
+ *
+ */
 public abstract class Employee {
 	
+	/**
+	 * The Logger
+	 */
 	protected static final Logger LOGGER=LogManager.getLogger(Dispatcher.class);
 	
+	/**
+	 * Min Call duration
+	 */
+	private final int MIN_CALL_DURATION=5000;
+	
+	/**
+	 * Max Call duration
+	 */
+	private final int MAX_CALL_DURATION=10000;
+	
+	/**
+	 * The Employee Rol
+	 */
 	protected EmployeeRol rol;
 	protected String name;
 	protected boolean available;
 	protected int priorityAnswer;
-
-	private final int MIN_CALL_DURATION=5000;
-	private final int MAX_CALL_DURATION=10000;
 	
 	/**
 	 * Process the call, change the state (completed call)
@@ -34,6 +58,8 @@ public abstract class Employee {
 		return call;
 	}
 
+	//Getters and Setters
+	
 	public EmployeeRol getRol() {
 		return rol;
 	}

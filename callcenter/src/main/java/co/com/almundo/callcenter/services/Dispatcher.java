@@ -21,7 +21,7 @@ import co.com.almundo.callcenter.models.constants.CallState;
 /**
  * This is Dispatcher service to process incomming calls
  * 
- * @author Joseph Rubio <a href="josephfmj@gmail.com">Joseph Rubio</a>
+ * @author <a href="josephfmj@gmail.com">Joseph Rubio</a>
  *
  */
 public class Dispatcher {

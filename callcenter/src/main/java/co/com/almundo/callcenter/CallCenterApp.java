@@ -1,3 +1,8 @@
+/**
+ * Joseph Rubio - Copyright (c) 2018
+ * https://github.com/josephfmj/almundo
+ * Date: 19/08/2018
+ */
 package co.com.almundo.callcenter;
 
 import java.util.ArrayList;
@@ -18,8 +23,9 @@ import co.com.almundo.callcenter.services.Dispatcher;
 import co.com.almundo.callcenter.services.ReCallService;
 
 /**
- * Hello world!
- *
+ * This is the callcenter class, to recive, manage and process calls
+ * 
+ * @author <a href="josephfmj@gmail.com">Joseph Rubio</a>
  */
 public class CallCenterApp {
 	
@@ -36,7 +42,7 @@ public class CallCenterApp {
 	private ReCallService reCallService;
 	private List<CallQueue> callAuxQueues;
 	private List<Employee> employees;
-	private boolean stopValidateCall;;
+	private boolean stopValidateCall;
 	
     /**
      * The static method to lauch app
@@ -45,6 +51,9 @@ public class CallCenterApp {
      */
     public static void main( String[] args ) throws InterruptedException{
     	
+    	/*
+    	 * this code is for example 
+    	 */
     	LOGGER.info("Run the CallCenter App");
     	CallCenterApp callCenterApp= new CallCenterApp();
     	callCenterApp.initApp();
@@ -74,7 +83,7 @@ public class CallCenterApp {
     }
     
     /**
-     * Initialize the values a build the dependecies objects
+     * Initialize the values a build the dependecies objects, default initialice
      */
     public void initApp() {
     	
@@ -160,5 +169,32 @@ public class CallCenterApp {
     public void startValidateForCallInQueue() {
     	this.stopValidateCall=true;
     }
+
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+
+	public boolean isStopValidateCall() {
+		return stopValidateCall;
+	}
+
+	public void setStopValidateCall(boolean stopValidateCall) {
+		this.stopValidateCall = stopValidateCall;
+	}
+    
+    //Getters and Setters
+    
     
 }
