@@ -31,8 +31,19 @@ public class Dispatcher {
 	 */
 	private static final Logger LOGGER = LogManager.getLogger(Dispatcher.class);
 
+	/**
+	 * The List of Employees
+	 */
 	private List<Employee> employees;
+	
+	/**
+	 * The calls that were answered queue 
+	 */
 	private CallQueue answeredCalls;
+	
+	/**
+	 * The not attended Calls Queue
+	 */
 	private CallQueue callQueue;
 
 	/**

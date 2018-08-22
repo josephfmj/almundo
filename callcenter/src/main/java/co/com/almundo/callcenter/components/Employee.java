@@ -4,6 +4,7 @@
  * Date: 19/08/2018
  */
 package co.com.almundo.callcenter.components;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,9 +40,22 @@ public abstract class Employee {
 	 * The Employee Rol
 	 */
 	protected EmployeeRol rol;
+	
+	/**
+	 * The Employee name
+	 */
 	protected String name;
+	
+	/**
+	 * The availability of the Employee
+	 */
 	protected boolean available;
+	
+	/**
+	 * The priority of the Employee
+	 */
 	protected int priorityAnswer;
+	
 	
 	/**
 	 * Process the call, change the state (completed call)

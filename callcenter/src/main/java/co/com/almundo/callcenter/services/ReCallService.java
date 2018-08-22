@@ -13,7 +13,7 @@ import co.com.almundo.callcenter.models.CallRequest;
 /**
  * This is a ReCall service to returno to the dispacher flow, the calls that have been added to the queue 
  * 
- * @author Joseph Rubio <a href="josephfmj@gmail.com">Joseph Rubio</a>
+ * @author <a href="josephfmj@gmail.com">Joseph Rubio</a>
  *
  */
 public class ReCallService{
