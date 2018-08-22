@@ -5,6 +5,8 @@
  */
 package co.com.almundo.callcenter.services;
 
+import java.util.Iterator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,20 +54,13 @@ public class ReCallService{
 	/**
 	 * This method validates if there are items in the queue, and send to process calls
 	 * @param dispatcher
-	 * @throws InterruptedException
 	 */
 	public synchronized void processRecall(Dispatcher dispatcher) throws InterruptedException {
 		
 		LOGGER.info("validate for recalls");
-		dispatcher.getCallQueue()
-		.getCalls()
-		.forEach(x->{
-			try {
-				this.reCall(dispatcher, x);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		});
+		for (Iterator<CallRequest> iterator = dispatcher.getCallQueue().getCalls().iterator(); iterator.hasNext();) {
+			this.reCall(dispatcher, iterator.next());
+		}
 		
 	}
 }
