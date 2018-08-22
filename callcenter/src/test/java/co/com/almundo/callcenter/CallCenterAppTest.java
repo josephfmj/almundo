@@ -1,3 +1,8 @@
+/**
+ * Joseph Rubio - Copyright (c) 2018
+ * https://github.com/josephfmj/almundo
+ * Date: 19/08/2018
+ */
 package co.com.almundo.callcenter;
 
 
@@ -39,6 +44,9 @@ public class CallCenterAppTest{
 	private List<CallQueue> callAuxQueues;
 	private List<Employee> employees;
 	
+	/**
+	 * Inityialize the object CallCenterApp to test
+	 */
 	@Before
 	public void initTest() {
 		
@@ -49,8 +57,14 @@ public class CallCenterAppTest{
 		this.employees=new ArrayList<>();
 		this.employees.add(new CallOperator(EmployeeRol.CALL_OPERATOR, "Operator 1", 1, true));
     	this.employees.add(new CallOperator(EmployeeRol.CALL_OPERATOR, "Operator 2", 1, true));
+    	this.employees.add(new CallOperator(EmployeeRol.CALL_OPERATOR, "Operator 3", 1, true));
+    	this.employees.add(new CallOperator(EmployeeRol.CALL_OPERATOR, "Operator 4", 1, true));
+    	this.employees.add(new CallOperator(EmployeeRol.CALL_OPERATOR, "Operator 5", 1, true));
     	this.employees.add(new Supervisor(EmployeeRol.SUPERVISOR, "Supervisor 1", 2, true));
+    	this.employees.add(new Supervisor(EmployeeRol.SUPERVISOR, "Supervisor 2", 2, true));
+    	this.employees.add(new Supervisor(EmployeeRol.SUPERVISOR, "Supervisor 3", 2, true));
     	this.employees.add(new Director(EmployeeRol.DIRECTOR, "Director 1", 3, true));
+    	this.employees.add(new Director(EmployeeRol.DIRECTOR, "Director 2", 3, true));
     	
     	//Create Auxilar Queues for Calls
     	this.callAuxQueues=new ArrayList<>();
@@ -60,6 +74,40 @@ public class CallCenterAppTest{
     	//Create the recallServices
     	this.reCallService= new ReCallService();
     	
+	}
+	
+	/**
+	 * This test case checks if process the calls with the maximun capacity (10)
+	 * @throws InterruptedException 
+	 */
+	@Test
+	public void processCallsTest() throws InterruptedException {
+		this.dispatcher= new Dispatcher(this.employees, this.callAuxQueues);
+		this.callCenterApp.setDispatcher(this.dispatcher);
+		this.callCenterApp.stopValidateForCallInQueue();	
+		int max_call=this.employees.size();
+			
+		for(int i=0;i<max_call;i++){
+    		
+    		CallRequest call= new CallRequest();
+    		call.setMsg("message number: "+i);
+    		call.setState(CallState.INCOMMING);
+    		LOGGER.info("Run call thread n: "+i);
+    		new Thread(() -> {
+    			try {
+					callCenterApp.inCommingCall(call);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			})
+			.start();
+    		
+    	}
+		//add this delay to allow all thread finished
+    	Thread.sleep(110000);
+    	
+    	//validate if list is empty (in this case no call must be added to the queue)
+    	assertTrue(this.callCenterApp.getDispatcher().getCallQueue().getCalls().isEmpty());
 	}
 	
 	/**
@@ -94,7 +142,7 @@ public class CallCenterAppTest{
     		
     	}
 		//add this delay to allow all thread finished
-    	Thread.sleep(50000);
+    	Thread.sleep(110000);
     	queueCallSize=this.callCenterApp.getDispatcher().getCallQueue().getCalls().size();
     	assertEquals(additional_calls, queueCallSize);
 	}
@@ -133,7 +181,7 @@ public class CallCenterAppTest{
     	}
 		
 		//add this delay to allow all thread finished
-    	Thread.sleep(50000);
+    	Thread.sleep(110000);
     	queueCallSize=this.callCenterApp.getDispatcher().getCallQueue().getCalls().size();
     	
     	//validate if not process call is add to queue
